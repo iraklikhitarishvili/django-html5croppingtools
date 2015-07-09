@@ -15,12 +15,13 @@ setup(
     license='BSD License',  # example license
     description='A simple Django app to crop and resize images',
     long_description=README,
-    url='http://www.example.com/',
+    url='https://github.com/iraklikhitarishvili/html5croppingtools',
     author='irakli khitarishvili',
     author_email='',
+    install_requires=['pillow'],
     classifiers=[
         'Environment :: Web Environment',
-        'Framework :: Django 1.8',
+        'Framework :: Django',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',  # example license
         'Operating System :: OS Independent',

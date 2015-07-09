@@ -1,11 +1,14 @@
-1 Configure settings.py:
+1 Installation
+    run  pip install django-html5croppingtools
+
+2 Configure settings.py:
     a) Add html5croppingtools to INSTALLED_APPS
 
 
-2 manage.py
+3 manage.py
     a) run manage.py collectstatic
 
-3 Examples
+4 Examples
 
     a) Admin example without saving original image
         #models.py
@@ -53,7 +56,7 @@
                 width_ratio=500, height_ratio=300,
             )
             ....
-4 On fly cropping
+5 On fly cropping
     a) Add html5croppingtools.imagecrop.ImageCropMiddleware to MIDDLEWARE_CLASSES
 
     after adding html5croppingtools.imagecrop.ImageCropMiddleware to MIDDLEWARE_CLASSES
@@ -81,5 +84,3 @@
 
         Note: "dimensions" and "quality" parameters are optional
 
-
-requirements pillow 
