@@ -1,9 +1,9 @@
-add to installed_apps
+Add to installed_apps
 
 run manage.py collectstatic
 
 
-admin example
+Admin example
 
 from croppingtools.fields import CropImageField
 from croppingtools.forms import CropImageFormMixin
