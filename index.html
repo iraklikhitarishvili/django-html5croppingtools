@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Html5croppingtools by iraklikhitarishvili</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Html5croppingtools</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/iraklikhitarishvili/html5croppingtools" class="btn">View on GitHub</a>
+      <a href="https://github.com/iraklikhitarishvili/html5croppingtools/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/iraklikhitarishvili/html5croppingtools/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<pre><code>run  pip install django-html5croppingtools
+</code></pre>
+
+<h1>
+<a id="configure-settingspy" class="anchor" href="#configure-settingspy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configure settings.py:</h1>
+
+<pre><code> Add html5croppingtools to INSTALLED_APPS
+</code></pre>
+
+<h1>
+<a id="managepy" class="anchor" href="#managepy" aria-hidden="true"><span class="octicon octicon-link"></span></a>manage.py</h1>
+
+<pre><code> run manage.py collectstatic
+</code></pre>
+
+<h1>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h1>
+
+<h3>
+<a id="admin-example-without-saving-original-image" class="anchor" href="#admin-example-without-saving-original-image" aria-hidden="true"><span class="octicon octicon-link"></span></a>Admin example without saving original image</h3>
+
+<div class="highlight highlight-python"><pre>        <span class="pl-c">#models.py</span>
+        <span class="pl-k">class</span> <span class="pl-en">MyModel</span>(<span class="pl-e">models.Model</span>):
+            ...
+            image <span class="pl-k">=</span> models.ImageField(<span class="pl-smi">upload_to</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>&lt;upload path&gt;<span class="pl-pds">'</span></span>)
+            ...
+
+        <span class="pl-c">#admin.py</span>
+        ....
+        <span class="pl-k">from</span> html5croppingtools.fields <span class="pl-k">import</span> CropImageField
+        <span class="pl-k">from</span> html5croppingtools.forms <span class="pl-k">import</span> CropImageFormMixin
+        ....
+
+        <span class="pl-k">class</span> <span class="pl-en">MyModelForm</span>(<span class="pl-e">CropImageFormMixin</span>, <span class="pl-e">ModelForm</span>):
+            <span class="pl-s"><span class="pl-pds">"""</span></span>
+<span class="pl-s">            :param max_size maximum size of image width or height(depends on which is greater) in pixels</span>
+<span class="pl-s">            :param width_ratio and height_ratio using this two parameters code calculates ratio</span>
+<span class="pl-s">                   between width and height of image and helps when selecting cropping area in admin by fixing ratio between sides</span>
+<span class="pl-s">            <span class="pl-pds">"""</span></span>
+            image <span class="pl-k">=</span> CropImageField(<span class="pl-smi">max_size</span><span class="pl-k">=</span><span class="pl-c1">900</span>, <span class="pl-smi">width_ratio</span><span class="pl-k">=</span><span class="pl-c1">500</span>,<span class="pl-smi">height_ratio</span><span class="pl-k">=</span><span class="pl-c1">300</span>)
+            ....
+
+
+        <span class="pl-en">@</span><span class="pl-en">admin.register</span>(MyModel)
+        <span class="pl-k">class</span> <span class="pl-en">MyModelAdmin</span>(<span class="pl-e">admin.ModelAdmin</span>):
+            form <span class="pl-k">=</span> MyModel
+            ....</pre></div>
+
+<h3>
+<a id="admin-example-with-saving-original-image" class="anchor" href="#admin-example-with-saving-original-image" aria-hidden="true"><span class="octicon octicon-link"></span></a>Admin example with saving original image</h3>
+
+<div class="highlight highlight-python"><pre>        ...
+        <span class="pl-k">class</span> <span class="pl-en">MyModel</span>(<span class="pl-e">models.Model</span>):
+                ...
+                image <span class="pl-k">=</span> models.ImageField(<span class="pl-smi">upload_to</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>&lt;upload path&gt;<span class="pl-pds">'</span></span>)
+                original_image <span class="pl-k">=</span> models.ImageField(<span class="pl-smi">upload_to</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>&lt;upload path&gt;<span class="pl-pds">'</span></span>)
+                ...
+        ...
+        <span class="pl-k">class</span> <span class="pl-en">MyModelForm</span>(<span class="pl-e">CropImageFormMixin</span>, <span class="pl-e">ModelForm</span>):
+            <span class="pl-s"><span class="pl-pds">"""</span></span>
+<span class="pl-s">            :param original_field name of corresponding model's field where you want to save original image</span>
+<span class="pl-s">            <span class="pl-pds">"""</span></span>
+            image <span class="pl-k">=</span> CropImageField(
+                <span class="pl-smi">original_field</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>original_image<span class="pl-pds">'</span></span>, <span class="pl-smi">max_size</span><span class="pl-k">=</span><span class="pl-c1">900</span>,
+                <span class="pl-smi">width_ratio</span><span class="pl-k">=</span><span class="pl-c1">500</span>, <span class="pl-smi">height_ratio</span><span class="pl-k">=</span><span class="pl-c1">300</span>,
+            )
+            ....</pre></div>
+
+<h1>
+<a id="on-fly-cropping" class="anchor" href="#on-fly-cropping" aria-hidden="true"><span class="octicon octicon-link"></span></a>On fly cropping</h1>
+
+<h3>
+<a id="add-html5croppingtoolsimagecropimagecropmiddleware-to-middleware_classes" class="anchor" href="#add-html5croppingtoolsimagecropimagecropmiddleware-to-middleware_classes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Add html5croppingtools.imagecrop.ImageCropMiddleware to MIDDLEWARE_CLASSES</h3>
+
+<pre><code>after adding html5croppingtools.imagecrop.ImageCropMiddleware to MIDDLEWARE_CLASSES
+you can add "quality=&lt;int&gt;&amp;dimensions=&lt;int&gt;x&lt;int&gt;x&lt;int&gt;x&lt;int&gt;" this parameters to GET querystring
+and middleware will serve corresponding image cropped and resized
+</code></pre>
+
+<h3>
+<a id="middleware-working-steps" class="anchor" href="#middleware-working-steps" aria-hidden="true"><span class="octicon octicon-link"></span></a>Middleware working steps:</h3>
+
+<ol>
+<li> if quality is supplied then resize image</li>
+<li> if crop dimensions ar supplied crop image</li>
+<li> return image</li>
+</ol>
+
+<p><strong>Note:</strong> "dimensions" and "quality" parameters are optional</p>
+
+<h1>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h1>
+
+<p>/media/image/9f925601-cf3e-4acb-b16c-e3d475343192.jpeg?quality=1200&amp;dimensions=300x200x900x800</p>
+
+<ol>
+<li>middleware will shrink image and it's biggest side will be 1200 pixel</li>
+<li>after shrinking it will crop  x1=300 y1=200 x2=900 y2=800 rectangle</li>
+<li>return image</li>
+</ol>
+
+<h1>
+<a id="template-example" class="anchor" href="#template-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Template example</h1>
+
+<div class="highlight highlight-html"><pre>{% load croppingtools_extra %}
+&lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>{% html5crop MyModel.image dimensions='100x100x300x300' quality=500 %}<span class="pl-pds">"</span></span>&gt;</pre></div>
+
+<p>takes ImageFiled dimensions and quality and
+returns url "/media/image/3ec7e4e5-c303-4339-bcf5-b70048978e91.jpeg?quality=500&amp;dimensions=100x100x300x300"
+after what middleware will serve cropped and resized image</p>
+
+<p><strong>Note:</strong> "dimensions" and "quality" parameters are optional</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/iraklikhitarishvili/html5croppingtools">Html5croppingtools</a> is maintained by <a href="https://github.com/iraklikhitarishvili">iraklikhitarishvili</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
