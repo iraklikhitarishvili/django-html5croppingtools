@@ -1,16 +1,18 @@
-1 Installation
+#  Installation
     run  pip install django-html5croppingtools
 
-2 Configure settings.py:
-    a) Add html5croppingtools to INSTALLED_APPS
+#  Configure settings.py:
+     Add html5croppingtools to INSTALLED_APPS
 
 
-3 manage.py
-    a) run manage.py collectstatic
+#  manage.py
+     run manage.py collectstatic
 
-4 Examples
+# Examples
 
-    a) Admin example without saving original image
+### Admin example without saving original image
+
+``` python
         #models.py
         class MyModel(models.Model):
             ...
@@ -27,8 +29,7 @@
             """
             :param max_size maximum size of image width or height(depends on which is greater) in pixels
             :param width_ratio and height_ratio using this two parameters code calculates ratio
-                   between width and height of image and helps when selecting cropping area in admin by fixing ratio
-                   between sides
+                   between width and height of image and helps when selecting cropping area in admin by fixing ratio between sides
             """
             image = CropImageField(max_size=900, width_ratio=500,height_ratio=300)
             ....
@@ -38,8 +39,10 @@
         class MyModelAdmin(admin.ModelAdmin):
             form = MyModel
             ....
+```
 
-    b) Admin example with saving original image
+### Admin example with saving original image
+``` python 
         ...
         class MyModel(models.Model):
                 ...
@@ -56,31 +59,35 @@
                 width_ratio=500, height_ratio=300,
             )
             ....
-5 On fly cropping
-    a) Add html5croppingtools.imagecrop.ImageCropMiddleware to MIDDLEWARE_CLASSES
-
+````
+# On the fly cropping
+### Add html5croppingtools.imagecrop.ImageCropMiddleware to MIDDLEWARE_CLASSES
     after adding html5croppingtools.imagecrop.ImageCropMiddleware to MIDDLEWARE_CLASSES
-    you can add "quality=<int>&dimensions=<int>x<int>x<int>x<int>" this parameters to GET querystring
+    you can add "quality=<int>&dimensions=<int x0 >x<int y0 >x<int x1 >x<int y1>" this parameters to GET querystring
     and middleware will serve corresponding image cropped and resized
-    middleware working steps:
-        1 if quality is supplied then resize image
-        2 if crop dimensions ar supplied crop image
-        3 return image
 
-    Note: "dimensions" and "quality" parameters are optional
+### Middleware working steps:
+1.  If "quality" is supplied, image will be resized
+1.  If crop "dimensions" are supplied, image will be cropped
+1.  return image
 
-    Example
-        /media/image/9f925601-cf3e-4acb-b16c-e3d475343192.jpeg?quality=1200&dimensions=300x200x900x800
-        1 middleware will shrink image and it's biggest side will be 1200 pixel
-        2 after shrinking it will crop  x1=300 y1=200 x2=900 y2=800 rectangle
-        3 return image
+**Note:** "dimensions" and "quality" parameters are optional
 
-    Template example
-        {% load croppingtools_extra %}
-        <img src="{% html5crop MyModel.image dimensions='100x100x300x300' quality=500 %}">
-        takes ImageFiled dimensions and quality and
-        returns url "/media/image/3ec7e4e5-c303-4339-bcf5-b70048978e91.jpeg?quality=500&dimensions=100x100x300x300"
-        after what middleware will serve cropped and resized image
+#    Example
+/media/image/my_image_guid.jpeg?quality=1200&dimensions=300x200x900x800
 
-        Note: "dimensions" and "quality" parameters are optional
+1. middleware will  resize image proportionally making It's bigger side equal to 1200 pixels
+1. after shrinking it will crop  x1=300 y1=200 x2=900 y2=800 rectangle
+1. return image
 
+#    Template example
+```html
+{% load croppingtools_extra %}
+<img src="{% html5crop MyModel.image dimensions='100x100x300x300' quality=500 %}">
+```
+
+takes "ImageFiled", "dimensions" and "quality" parameters and
+returns url "/media/image/my_image_guid.jpeg?quality=500&dimensions=100x100x300x300"
+after what middleware will serve cropped and resized image
+
+**Note:** "dimensions" and "quality" parameters are optional
