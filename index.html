@@ -97,7 +97,7 @@
 <a id="add-html5croppingtoolsimagecropimagecropmiddleware-to-middleware_classes" class="anchor" href="#add-html5croppingtoolsimagecropimagecropmiddleware-to-middleware_classes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Add html5croppingtools.imagecrop.ImageCropMiddleware to MIDDLEWARE_CLASSES</h3>
 
 <pre><code>after adding html5croppingtools.imagecrop.ImageCropMiddleware to MIDDLEWARE_CLASSES
-you can add "quality=&lt;int&gt;&amp;dimensions=&lt;int x0 &gt;x&lt;int y0 &gt;x&lt;int x1 &gt;x&lt;int y1&gt;" this parameters to GET querystring
+you can add "quality=&lt;int&gt;&amp;dimensions=&lt;int x1 &gt;x&lt;int y1 &gt;x&lt;int x2 &gt;x&lt;int y2&gt;" this parameters to GET querystring
 and middleware will serve corresponding image cropped and resized
 </code></pre>
 
@@ -107,7 +107,6 @@ and middleware will serve corresponding image cropped and resized
 <ol>
 <li> If "quality" is supplied, image will be resized</li>
 <li> If crop "dimensions" are supplied, image will be cropped</li>
-<li> return image</li>
 </ol>
 
 <p><strong>Note:</strong> "dimensions" and "quality" parameters are optional</p>
