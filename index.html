@@ -106,7 +106,7 @@ and middleware will serve corresponding image cropped and resized
 
 <ol>
 <li> If "quality" is supplied, image will be resized</li>
-<li> If crop dimensions are supplied, image will be croped</li>
+<li> If crop "dimensions" are supplied, image will be croped</li>
 <li> return image</li>
 </ol>
 
@@ -130,7 +130,7 @@ and middleware will serve corresponding image cropped and resized
 &lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>{% html5crop MyModel.image dimensions='100x100x300x300' quality=500 %}<span class="pl-pds">"</span></span>&gt;</pre></div>
 
 <p>takes ImageFiled dimensions and quality and
-returns url "/media/image/3ec7e4e5-c303-4339-bcf5-b70048978e91.jpeg?quality=500&amp;dimensions=100x100x300x300"
+returns url "/media/image/.jpeg?quality=500&amp;dimensions=100x100x300x300"
 after what middleware will serve cropped and resized image</p>
 
 <p><strong>Note:</strong> "dimensions" and "quality" parameters are optional</p>
