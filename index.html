@@ -118,7 +118,7 @@ and middleware will serve corresponding image cropped and resized
 <p>/media/image/my_image_guid.jpeg?quality=1200&amp;dimensions=300x200x900x800</p>
 
 <ol>
-<li>middleware will shrink image and it's biggest side will be 1200 pixel</li>
+<li>middleware will  resize image proportionally making It's bigger side equal to 1200 pixels</li>
 <li>after shrinking it will crop  x1=300 y1=200 x2=900 y2=800 rectangle</li>
 <li>return image</li>
 </ol>
