@@ -63,13 +63,12 @@
 # On the fly cropping
 ### Add html5croppingtools.imagecrop.ImageCropMiddleware to MIDDLEWARE_CLASSES
     after adding html5croppingtools.imagecrop.ImageCropMiddleware to MIDDLEWARE_CLASSES
-    you can add "quality=<int>&dimensions=<int x0 >x<int y0 >x<int x1 >x<int y1>" this parameters to GET querystring
+    you can add "quality=<int>&dimensions=<int x1 >x<int y1 >x<int x2 >x<int y2>" this parameters to GET querystring
     and middleware will serve corresponding image cropped and resized
 
 ### Middleware working steps:
 1.  If "quality" is supplied, image will be resized
 1.  If crop "dimensions" are supplied, image will be cropped
-1.  return image
 
 **Note:** "dimensions" and "quality" parameters are optional
 
@@ -77,8 +76,7 @@
 /media/image/my_image_guid.jpeg?quality=1200&dimensions=300x200x900x800
 
 1. middleware will  resize image proportionally making It's bigger side equal to 1200 pixels
-1. after shrinking it will crop  x1=300 y1=200 x2=900 y2=800 rectangle
-1. return image
+1. after shrinking it will crop out a rectangle with coordinates:  **x1=300 y1=200 x2=900 y2=800** rectangle
 
 #    Template example
 ```html
