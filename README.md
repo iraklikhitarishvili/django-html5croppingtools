@@ -86,6 +86,6 @@
 
 takes "ImageFiled", "dimensions" and "quality" parameters and
 returns url "/media/image/my_image_guid.jpeg?quality=500&dimensions=100x100x300x300"
-after what middleware will serve cropped and resized image
+after which middleware will serve cropped and resized image
 
 **Note:** "dimensions" and "quality" parameters are optional
