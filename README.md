@@ -1,7 +1,10 @@
+#  Requirements
+    1. python 3 only
+    1. django 1.7, 1.8 tested. May work on older version
 #  Installation
     run  pip install django-html5croppingtools
 
-#  Configure settings.py:
+#  Configure settings.py
      Add html5croppingtools to INSTALLED_APPS
 
 
