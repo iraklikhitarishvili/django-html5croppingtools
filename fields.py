@@ -36,6 +36,8 @@ class CropImageField(ImageField):
 
     def clean(self, data, initial=None):
         super().clean(data, initial=initial)
+        if data is None and initial is not None:
+            data = open(initial.path, 'rb')
         if data:
             dimensions = json.loads(self.dimension)
             image = Image.open(data).convert('RGB')  # type:Image
