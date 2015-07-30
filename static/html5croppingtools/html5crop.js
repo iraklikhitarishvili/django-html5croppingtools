@@ -128,8 +128,6 @@ NS_DJANGO_JCROP.JCROP_API_LIST = [];
 
 NS_DJANGO_JCROP.jcrop = function (image, apiKey) {
     var ratio = Number($("#" + image.id).attr('jcrop_width_ratio')) / Number(($("#" + image.id).attr('jcrop_height_ratio')));
-    //
-
     var crop = function () {
         $("#" + image.id).Jcrop({
             onChange: function (c) {
@@ -144,7 +142,6 @@ NS_DJANGO_JCROP.jcrop = function (image, apiKey) {
             var width = $(image).width();
             var height = width / ratio;
             this.setOptions({setSelect: [0, 0, width, height]});
-            console.log(this.setSelect);
         });
     };
     crop();
