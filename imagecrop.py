@@ -7,6 +7,7 @@ from django.http.response import HttpResponse
 
 class ImageCropMiddleware:
     def process_response(self, request: 'HttpRequest', response: 'HttpResponse'):
+        # todo check if media root exists
         if request.path.startswith(settings.MEDIA_URL):
             try:
                 file = open(os.path.join(settings.MEDIA_ROOT, request.path.replace(settings.MEDIA_URL, '')), mode='rb')

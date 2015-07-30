@@ -2,7 +2,8 @@
  * Created by irakli on 5/14/15.
  */
 NS_DJANGO_JCROP = {};
-
+NS_DJANGO_JCROP.MAX_WIDTH = 400;
+NS_DJANGO_JCROP.MAX_HEIGHT = 200;
 NS_DJANGO_JCROP.getFileReader = function (target) {
     var oFReader = new FileReader();
     oFReader.readAsDataURL(target.files[0]);
@@ -49,7 +50,7 @@ NS_DJANGO_JCROP.get_aspect_ratio_control = function (w, h, p_id) {
     $(height).on('keyup', NS_DJANGO_JCROP.on_ratio_chnage);
 
     var quality = document.createElement('input');
-    quality.value = 50;
+    quality.value = 100;
     $(quality).attr('type', 'range');
     $(quality).attr('min', '0');
     $(quality).attr('max', '100');
@@ -126,20 +127,28 @@ NS_DJANGO_JCROP.JCROP_API_LIST = [];
 
 
 NS_DJANGO_JCROP.jcrop = function (image, apiKey) {
+    var ratio = Number($("#" + image.id).attr('jcrop_width_ratio')) / Number(($("#" + image.id).attr('jcrop_height_ratio')));
+    //
+
     var crop = function () {
         $("#" + image.id).Jcrop({
             onChange: function (c) {
                 NS_DJANGO_JCROP.on_change(image, c);
             },
-            aspectRatio: Number($("#" + image.id).attr('jcrop_width_ratio')) / Number(($("#" + image.id).attr('jcrop_height_ratio'))),
+            aspectRatio: ratio,
             setSelect: [0, 0, 100, 100],
             allowSelect: false
         }, function () {
             this.imgNode = image;
             NS_DJANGO_JCROP.JCROP_API_LIST[apiKey] = this;
+            var width = $(image).width();
+            var height = width / ratio;
+            this.setOptions({setSelect: [0, 0, width, height]});
+            console.log(this.setSelect);
         });
     };
     crop();
+
     NS_DJANGO_JCROP.destroyJcrop(apiKey, crop);
 };
 NS_DJANGO_JCROP.destroyJcrop = function (apiKey, callback) {
