@@ -1,5 +1,0 @@
-include LICENSE.txt
-include README.rst
-recursive-include html5croppingtools/static *
-recursive-include html5croppingtools/templatetags *
-recursive-include docs *
