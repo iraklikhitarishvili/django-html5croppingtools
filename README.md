@@ -1,3 +1,4 @@
+**Not maintained**
 #  Requirements
 1. python 3 only
 1. django 1.7, 1.8 tested. May work on older version
